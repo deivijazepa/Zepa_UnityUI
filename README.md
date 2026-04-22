@@ -1,6 +1,6 @@
-# Tēla veidotājs (Character Creator – Unity projekts)
+# Tēla veidotājs (Character Creator – Unity UI projekts)
 
-Moderns **2D tēla veidotājs**, izstrādāts ar Unity, kas ļauj lietotājam interaktīvi veidot un pielāgot savu tēlu reāllaikā.
+Šis projekts ir izstrādāts Unity vidē, izmantojot dažādus UI elementus, lai izveidotu interaktīvu tēla veidošanas sistēmu.
 
 ---
 
@@ -24,51 +24,78 @@ Moderns **2D tēla veidotājs**, izstrādāts ar Unity, kas ļauj lietotājam in
 
 ## Funkcionalitāte
 
-### Ievades sistēma
-- Teksta lauki (vārds, vecums)
-- Nolaižamais saraksts (klase)
-- Dinamiska datu attēlošana
+### Navigācija
+- Sākuma izvēlne (Main Menu)
+- Poga **Start** atver Character Creator ainu
+- Poga **Exit** aizver aplikāciju
+- Poga **Back** atgriežas uz galveno izvēlni
 
 ---
 
-### Tēla priekšskatījums
-- Sprite maiņa reāllaikā
-- Slāņota sistēma:
-  - Galva (Head)
-  - Aksesuāri (Accessory)
-  - Bruņas (Armor)
+### Tēla izvēle
+- Izmantojot dropdown, iespējams izvēlēties vairākus tēlus
+- Mainās:
+  - tēla attēls
+  - apraksts (Scroll View)
+  - klase
 
 ---
 
-### Pielāgošanas sistēma
-- Toggle izvēles (Hats / Accessories / Armor)
-- 3 varianti katrai kategorijai
-- Pogu sistēma izvēlei
+### Datu ievade
+- Iespējams ievadīt:
+  - vārdu
+  - vecumu
+- Rezultātā tiek attēlots teksts ar ievadītajiem datiem
 
 ---
 
-## Rezultāta attēlošana
+### Customization sistēma
+Ir izveidotas vairākas kategorijas:
+- Hats
+- Accessories
+- Armor
 
-- Dinamiski atjaunots teksts:
-  - **Vārds:** ...
-  - **Vecums:** ...
-  - **Klase:** ...
+Katru kategoriju var:
+- ieslēgt/izslēgt ar toggle
+- izvēlēties konkrētu elementu ar pogām
+
+Selected Items laukā tiek attēlota izvēle:
+- Hat
+- Accessory
+- Armor
+
+**Piezīme:**  
+Cepures izvēle maina tēla vizuālo izskatu, savukārt aksesuāri un bruņas tiek attēloti izvēlēto elementu sarakstā.
 
 ---
 
-## Izvēlēto elementu panelis
+### Drag & Drop
+- Demonstrēts drag & drop princips
+- Iespējams pārvilkt aprīkojuma elementus (**Accessories 1 / 2 / 3**) uz tēla priekšskatījumu
+- Nometot elementu uz tēla, tiek aktivizēta atbilstošā izvēle
+- Funkcionalitāte izmantota kā interaktīvs piemērs lietotāja darbību apstrādei
 
-- Tiek attēlots izvēlēto elementu kopsavilkums:
-  - **Cepure:** ...
-  - **Aksesuārs:** ...
-  - **Bruņas:** ...
+**Piezīme:**
+Drag & drop funkcionalitāte nav izmantota visām kategorijām, bet demonstrē principa realizāciju UI vidē
 
 ---
 
-### Slīdņi
+### Skaņas efekti
+- Pogām pievienota klikšķa skaņa
+- Uzlabota lietotāja pieredze
 
-- **Augstums (Height)**
-- **Platums (Width)**
+---
+
+### Tēla izmēru maiņa
+- Izmantojot sliderus:
+  - Height → maina augstumu
+  - Width → maina platumu
+
+---
+
+### Scroll View
+- Attēlo izvēlētā tēla aprakstu
+- Mainās atkarībā no izvēles
 
 ---
 
@@ -77,16 +104,21 @@ Moderns **2D tēla veidotājs**, izstrādāts ar Unity, kas ļauj lietotājam in
 ```
 Assets/
 ├── Scenes/
-│   └── CharacterCreator.unity
+│ ├── MainMenu.unity
+│ └── CharacterCreator.unity
 ├── Scripts/
-│   ├── CharacterSelector.cs
-│   ├── CustomizationOptions.cs
-│   ├── CustomizationSelection.cs
-│   └── CustomizationToggles.cs
+│ ├── CharacterSelector.cs
+│ ├── CustomizationOptions.cs
+│ ├── CustomizationSelection.cs
+│ ├── CustomizationToggles.cs
+│ ├── DraggableItem.cs
+│ ├── DropZone.cs
+│ ├── UIButtonSound.cs
+│ └── MainMenuUI.cs
 ├── Sprites/
-│   ├── Head_*.png
-│   ├── Accessory_*.png
-│   └── Armor_*.png
+│   ├── Head_.png
+│   ├── Accessory_.png
+│   └── Armor_.png
 ├── UI/
 └── TextMesh Pro/
 ```
@@ -99,50 +131,65 @@ Assets/
 - TextMeshPro
 - C#
 - UI (Canvas sistēma)
-- Notikumu vadīta loģika (Event-driven)
+- Event-driven programmēšana
+
+---
+
+## Versiju kontrole
+Projekts tiek pārvaldīts ar Git un glabāts GitHub repozitorijā.
 
 ---
 
 ## Darbības princips
 
 1. Lietotājs ievada vārdu un vecumu
-2. Izvēlas tēla klasi
+2. Izvēlas tēla klasi (dropdown)
 3. Aktivizē kategorijas ar toggle (cepures, aksesuāri, bruņas)
-4. Izvēlas konkrētus elementus (pogas)
-5. Tēla attēls mainās uzreiz
-6. Atjaunojas izvēlēto elementu saraksts
+4. Izvēlas konkrētus elementus (pogas vai drag & drop)
+5. Tēla attēls un informācija atjaunojas
+6. Selected Items panelī tiek attēlota izvēle
 
 ---
 
 ## Galvenie skripti
 
 ### `CharacterSelector.cs`
-Atbild par:
-- ievades laukiem
-- dropdown izvēli
-- rezultāta teksta atjaunošanu
+- Apstrādā ievades laukus
+- Kontrolē dropdown izvēli
+- Atjauno rezultāta tekstu
 
 ---
 
 ### `CustomizationToggles.cs`
-Atbild par:
-- paneļu parādīšanu/paslēpšanu
-- toggle loģiku
+- Pārvalda kategoriju paneļus
+- Nodrošina toggle loģiku
 
 ---
 
 ### `CustomizationOptions.cs`
-Atbild par:
-- pogu klikšķiem
-- sprite maiņu
-- izvēlēto elementu tekstu
+- Apstrādā pogu klikšķus
+- Maina tēla attēlu
+- Atjauno Selected Items
 
 ---
 
 ### `CustomizationSelection.cs`
-Atbild par:
-- izvēlēto datu saglabāšanu
-- loģikas koordinēšanu
+- Koordinē izvēlēto datu loģiku
+
+---
+
+### `DraggableItem.cs` / `DropZone.cs`
+- Nodrošina drag & drop funkcionalitāti
+
+---
+
+### `UIButtonSound.cs`
+- Atskaņo pogu klikšķu skaņas
+
+---
+
+### `MainMenuUI.cs`
+- Pārvalda navigāciju starp ainām
 
 ---
 
@@ -170,15 +217,8 @@ Atbild par:
 - Saglabāt / ielādēt tēlu
 - Animācijas
 - Vairāk pielāgošanas opciju
-- Drag & Drop sistēma
-- Skaņas efekti
+- Paplašināti skaņas efekti
 - Responsīvs dizains
-
----
-
-## Priekšskatījums
-
-*(šeit screenshot no projekta)*
 
 ---
 
@@ -191,6 +231,8 @@ Atbild par:
 ## Statuss
 
 Pamatfunkcionalitāte izstrādāta  
+
+Projekts pilnībā funkcionāls  
 
 Iespējami uzlabojumi un dizaina pilnveide  
 
