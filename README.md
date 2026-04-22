@@ -4,6 +4,13 @@
 
 ---
 
+## Kā palaist .exe versiju
+
+1. Atvērt Build/Windows/
+2. Palaist Zepa_UnityUI.exe
+
+---
+
 ## Pārskats
 
 Šī lietotne ļauj:
