@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CustomizationOptions : MonoBehaviour
 {
@@ -13,15 +14,21 @@ public class CustomizationOptions : MonoBehaviour
     public GameObject accessoriesPanel;
     public GameObject armorPanel;
 
-    [Header("Preview Images")]
-    public Image hatImage;
+    [Header("Selected Text")]
+    public TMP_Text selectedItemsText;
+
+    [Header("Character Sync")]
+    public TMP_Dropdown characterDropdown;
+    public Image characterImage;
+
+    [Header("Overlay Images")]
     public Image accessoryImage;
     public Image armorImage;
 
-    [Header("Hat Sprites")]
-    public Sprite hatOption1;
-    public Sprite hatOption2;
-    public Sprite hatOption3;
+    [Header("Full Character Sprites")]
+    public Sprite characterOption1;
+    public Sprite characterOption2;
+    public Sprite characterOption3;
 
     [Header("Accessory Sprites")]
     public Sprite accessoryOption1;
@@ -33,13 +40,28 @@ public class CustomizationOptions : MonoBehaviour
     public Sprite armorOption2;
     public Sprite armorOption3;
 
+    private string selectedHat = "None";
+    private string selectedAccessory = "None";
+    private string selectedArmor = "None";
+
     private void Start()
     {
         hatsToggle.onValueChanged.AddListener(OnHatsToggleChanged);
         accessoriesToggle.onValueChanged.AddListener(OnAccessoriesToggleChanged);
         armorToggle.onValueChanged.AddListener(OnArmorToggleChanged);
 
+        hatsToggle.isOn = true;
+        accessoriesToggle.isOn = false;
+        armorToggle.isOn = false;
+
         UpdatePanels();
+        UpdateText();
+
+        if (accessoryImage != null)
+            accessoryImage.enabled = false;
+
+        if (armorImage != null)
+            armorImage.enabled = false;
     }
 
     private void OnHatsToggleChanged(bool isOn)
@@ -49,6 +71,7 @@ public class CustomizationOptions : MonoBehaviour
             accessoriesToggle.isOn = false;
             armorToggle.isOn = false;
         }
+
         UpdatePanels();
     }
 
@@ -59,6 +82,7 @@ public class CustomizationOptions : MonoBehaviour
             hatsToggle.isOn = false;
             armorToggle.isOn = false;
         }
+
         UpdatePanels();
     }
 
@@ -69,6 +93,7 @@ public class CustomizationOptions : MonoBehaviour
             hatsToggle.isOn = false;
             accessoriesToggle.isOn = false;
         }
+
         UpdatePanels();
     }
 
@@ -79,15 +104,108 @@ public class CustomizationOptions : MonoBehaviour
         armorPanel.SetActive(armorToggle.isOn);
     }
 
-    public void SelectHat1() => hatImage.sprite = hatOption1;
-    public void SelectHat2() => hatImage.sprite = hatOption2;
-    public void SelectHat3() => hatImage.sprite = hatOption3;
+    public void SelectHat1()
+    {
+        selectedHat = "Helmet";
+        if (characterImage != null && characterOption1 != null)
+            characterImage.sprite = characterOption1;
+        if (characterDropdown != null)
+            characterDropdown.value = 0;
+        UpdateText();
+    }
 
-    public void SelectAccessory1() => accessoryImage.sprite = accessoryOption1;
-    public void SelectAccessory2() => accessoryImage.sprite = accessoryOption2;
-    public void SelectAccessory3() => accessoryImage.sprite = accessoryOption3;
+    public void SelectHat2()
+    {
+        selectedHat = "Hood";
+        if (characterImage != null && characterOption2 != null)
+            characterImage.sprite = characterOption2;
+        if (characterDropdown != null)
+            characterDropdown.value = 1;
+        UpdateText();
+    }
 
-    public void SelectArmor1() => armorImage.sprite = armorOption1;
-    public void SelectArmor2() => armorImage.sprite = armorOption2;
-    public void SelectArmor3() => armorImage.sprite = armorOption3;
+    public void SelectHat3()
+    {
+        selectedHat = "Crown";
+        if (characterImage != null && characterOption3 != null)
+            characterImage.sprite = characterOption3;
+        if (characterDropdown != null)
+            characterDropdown.value = 2;
+        UpdateText();
+    }
+
+    public void SelectAccessory1()
+    {
+        selectedAccessory = "Ring";
+        if (accessoryImage != null)
+        {
+            accessoryImage.sprite = accessoryOption1;
+            accessoryImage.enabled = true;
+        }
+        UpdateText();
+    }
+
+    public void SelectAccessory2()
+    {
+        selectedAccessory = "Amulet";
+        if (accessoryImage != null)
+        {
+            accessoryImage.sprite = accessoryOption2;
+            accessoryImage.enabled = true;
+        }
+        UpdateText();
+    }
+
+    public void SelectAccessory3()
+    {
+        selectedAccessory = "Bracelet";
+        if (accessoryImage != null)
+        {
+            accessoryImage.sprite = accessoryOption3;
+            accessoryImage.enabled = true;
+        }
+        UpdateText();
+    }
+
+    public void SelectArmor1()
+    {
+        selectedArmor = "Light Armor";
+        if (armorImage != null)
+        {
+            armorImage.sprite = armorOption1;
+            armorImage.enabled = true;
+        }
+        UpdateText();
+    }
+
+    public void SelectArmor2()
+    {
+        selectedArmor = "Medium Armor";
+        if (armorImage != null)
+        {
+            armorImage.sprite = armorOption2;
+            armorImage.enabled = true;
+        }
+        UpdateText();
+    }
+
+    public void SelectArmor3()
+    {
+        selectedArmor = "Heavy Armor";
+        if (armorImage != null)
+        {
+            armorImage.sprite = armorOption3;
+            armorImage.enabled = true;
+        }
+        UpdateText();
+    }
+
+    private void UpdateText()
+    {
+        selectedItemsText.text =
+            "Selected Items:\n" +
+            "Hat: " + selectedHat + "\n" +
+            "Accessory: " + selectedAccessory + "\n" +
+            "Armor: " + selectedArmor;
+    }
 }

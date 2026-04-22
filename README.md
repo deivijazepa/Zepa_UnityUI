@@ -47,49 +47,49 @@ Moderns **2D tēla veidotājs**, izstrādāts ar Unity, kas ļauj lietotājam in
 
 ---
 
-### Rezultāta attēlošana
+## Rezultāta attēlošana
+
 - Dinamiski atjaunots teksts:
-Vārds: ...
-Vecums: ...
-Klase: ...
+  - **Vārds:** ...
+  - **Vecums:** ...
+  - **Klase:** ...
 
 ---
 
-### Izvēlēto elementu panelis
-Izvēlētie elementi:
-Cepure: ...
-Aksesuārs: ...
-Bruņas: ...
+## Izvēlēto elementu panelis
+
+- Tiek attēlots izvēlēto elementu kopsavilkums:
+  - **Cepure:** ...
+  - **Aksesuārs:** ...
+  - **Bruņas:** ...
 
 ---
 
 ### Slīdņi
-- Augstums (Height)
-- Platums (Width)
+
+- **Augstums (Height)**
+- **Platums (Width)**
 
 ---
 
 ## Projekta struktūra
 
+```
 Assets/
-│
 ├── Scenes/
-│ └── CharacterCreator.unity
-│
+│   └── CharacterCreator.unity
 ├── Scripts/
-│ ├── CharacterSelector.cs
-│ ├── CustomizationOptions.cs
-│ ├── CustomizationSelection.cs
-│ └── CustomizationToggles.cs
-│
+│   ├── CharacterSelector.cs
+│   ├── CustomizationOptions.cs
+│   ├── CustomizationSelection.cs
+│   └── CustomizationToggles.cs
 ├── Sprites/
-│ ├── Head_.png
-│ ├── Accessory_.png
-│ └── Armor_*.png
-│
+│   ├── Head_*.png
+│   ├── Accessory_*.png
+│   └── Armor_*.png
 ├── UI/
 └── TextMesh Pro/
-
+```
 
 ---
 

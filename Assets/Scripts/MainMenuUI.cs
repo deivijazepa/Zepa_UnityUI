@@ -3,14 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuUI : MonoBehaviour
 {
-    public void StartProject()
+    public void StartGame()
     {
         SceneManager.LoadScene("CharacterCreator");
     }
 
-    public void ExitProject()
+    public void ExitGame()
     {
         Application.Quit();
-        Debug.Log("Project closed.");
+        Debug.Log("Game closed");
+    }
+
+    public void GoToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

@@ -4,18 +4,33 @@ using TMPro;
 
 public class CustomizationSelection : MonoBehaviour
 {
-    [Header("Toggles")]
+    [Header("Category Toggles")]
     public Toggle hatsToggle;
     public Toggle accessoriesToggle;
     public Toggle armorToggle;
 
-    [Header("Panels")]
-    public GameObject hatsPanel;
-    public GameObject accessoriesPanel;
-    public GameObject armorPanel;
+    [Header("Option Buttons")]
+    public Button optionButton1;
+    public Button optionButton2;
+    public Button optionButton3;
+
+    [Header("Option Button Labels")]
+    public TMP_Text optionButton1Text;
+    public TMP_Text optionButton2Text;
+    public TMP_Text optionButton3Text;
 
     [Header("Selected Items Text")]
     public TMP_Text selectedItemsText;
+
+    private enum Category
+    {
+        None,
+        Hats,
+        Accessories,
+        Armor
+    }
+
+    private Category currentCategory = Category.None;
 
     private string selectedHat = "None";
     private string selectedAccessory = "None";
@@ -27,7 +42,28 @@ public class CustomizationSelection : MonoBehaviour
         accessoriesToggle.onValueChanged.AddListener(OnAccessoriesToggleChanged);
         armorToggle.onValueChanged.AddListener(OnArmorToggleChanged);
 
-        UpdatePanels();
+        optionButton1.onClick.AddListener(() => SelectOption(0));
+        optionButton2.onClick.AddListener(() => SelectOption(1));
+        optionButton3.onClick.AddListener(() => SelectOption(2));
+
+        if (hatsToggle.isOn)
+        {
+            currentCategory = Category.Hats;
+        }
+        else if (accessoriesToggle.isOn)
+        {
+            currentCategory = Category.Accessories;
+        }
+        else if (armorToggle.isOn)
+        {
+            currentCategory = Category.Armor;
+        }
+        else
+        {
+            currentCategory = Category.None;
+        }
+
+        UpdateOptionButtons();
         UpdateSelectedItemsText();
     }
 
@@ -37,9 +73,14 @@ public class CustomizationSelection : MonoBehaviour
         {
             accessoriesToggle.isOn = false;
             armorToggle.isOn = false;
+            currentCategory = Category.Hats;
+        }
+        else if (!accessoriesToggle.isOn && !armorToggle.isOn)
+        {
+            currentCategory = Category.None;
         }
 
-        UpdatePanels();
+        UpdateOptionButtons();
     }
 
     private void OnAccessoriesToggleChanged(bool isOn)
@@ -48,9 +89,14 @@ public class CustomizationSelection : MonoBehaviour
         {
             hatsToggle.isOn = false;
             armorToggle.isOn = false;
+            currentCategory = Category.Accessories;
+        }
+        else if (!hatsToggle.isOn && !armorToggle.isOn)
+        {
+            currentCategory = Category.None;
         }
 
-        UpdatePanels();
+        UpdateOptionButtons();
     }
 
     private void OnArmorToggleChanged(bool isOn)
@@ -59,69 +105,69 @@ public class CustomizationSelection : MonoBehaviour
         {
             hatsToggle.isOn = false;
             accessoriesToggle.isOn = false;
+            currentCategory = Category.Armor;
+        }
+        else if (!hatsToggle.isOn && !accessoriesToggle.isOn)
+        {
+            currentCategory = Category.None;
         }
 
-        UpdatePanels();
+        UpdateOptionButtons();
     }
 
-    private void UpdatePanels()
+    private void UpdateOptionButtons()
     {
-        hatsPanel.SetActive(hatsToggle.isOn);
-        accessoriesPanel.SetActive(accessoriesToggle.isOn);
-        armorPanel.SetActive(armorToggle.isOn);
+        switch (currentCategory)
+        {
+            case Category.Hats:
+                optionButton1Text.text = "Helmet";
+                optionButton2Text.text = "Hood";
+                optionButton3Text.text = "Crown";
+                break;
+
+            case Category.Accessories:
+                optionButton1Text.text = "Ring";
+                optionButton2Text.text = "Amulet";
+                optionButton3Text.text = "Bracelet";
+                break;
+
+            case Category.Armor:
+                optionButton1Text.text = "Light Armor";
+                optionButton2Text.text = "Medium Armor";
+                optionButton3Text.text = "Heavy Armor";
+                break;
+
+            default:
+                optionButton1Text.text = "Option 1";
+                optionButton2Text.text = "Option 2";
+                optionButton3Text.text = "Option 3";
+                break;
+        }
     }
 
-    public void SelectHat1()
+    private void SelectOption(int optionIndex)
     {
-        selectedHat = "Helmet";
-        UpdateSelectedItemsText();
-    }
+        switch (currentCategory)
+        {
+            case Category.Hats:
+                if (optionIndex == 0) selectedHat = "Helmet";
+                if (optionIndex == 1) selectedHat = "Hood";
+                if (optionIndex == 2) selectedHat = "Crown";
+                break;
 
-    public void SelectHat2()
-    {
-        selectedHat = "Hood";
-        UpdateSelectedItemsText();
-    }
+            case Category.Accessories:
+                if (optionIndex == 0) selectedAccessory = "Ring";
+                if (optionIndex == 1) selectedAccessory = "Amulet";
+                if (optionIndex == 2) selectedAccessory = "Bracelet";
+                break;
 
-    public void SelectHat3()
-    {
-        selectedHat = "Crown";
-        UpdateSelectedItemsText();
-    }
+            case Category.Armor:
+                if (optionIndex == 0) selectedArmor = "Light Armor";
+                if (optionIndex == 1) selectedArmor = "Medium Armor";
+                if (optionIndex == 2) selectedArmor = "Heavy Armor";
+                break;
+        }
 
-    public void SelectAccessory1()
-    {
-        selectedAccessory = "Ring";
-        UpdateSelectedItemsText();
-    }
-
-    public void SelectAccessory2()
-    {
-        selectedAccessory = "Amulet";
-        UpdateSelectedItemsText();
-    }
-
-    public void SelectAccessory3()
-    {
-        selectedAccessory = "Bracelet";
-        UpdateSelectedItemsText();
-    }
-
-    public void SelectArmor1()
-    {
-        selectedArmor = "Light Armor";
-        UpdateSelectedItemsText();
-    }
-
-    public void SelectArmor2()
-    {
-        selectedArmor = "Medium Armor";
-        UpdateSelectedItemsText();
-    }
-
-    public void SelectArmor3()
-    {
-        selectedArmor = "Heavy Armor";
         UpdateSelectedItemsText();
     }
 

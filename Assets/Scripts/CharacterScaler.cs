@@ -7,17 +7,32 @@ public class CharacterScaler : MonoBehaviour
     public Slider heightSlider;
     public Slider widthSlider;
 
-    void Start()
+    private Vector3 originalScale;
+
+    private void Start()
     {
-        heightSlider.onValueChanged.AddListener(UpdateScale);
-        widthSlider.onValueChanged.AddListener(UpdateScale);
+        originalScale = character.localScale;
+
+        heightSlider.minValue = 0.8f;
+        heightSlider.maxValue = 1.3f;
+        heightSlider.value = 1f;
+
+        widthSlider.minValue = 0.8f;
+        widthSlider.maxValue = 1.3f;
+        widthSlider.value = 1f;
+
+        heightSlider.onValueChanged.AddListener(delegate { UpdateScale(); });
+        widthSlider.onValueChanged.AddListener(delegate { UpdateScale(); });
+
+        UpdateScale();
     }
 
-    void UpdateScale(float value)
+    private void UpdateScale()
     {
-        float height = heightSlider.value;
-        float width = widthSlider.value;
-
-        character.localScale = new Vector3(width, height, 1f);
+        character.localScale = new Vector3(
+            originalScale.x * widthSlider.value,
+            originalScale.y * heightSlider.value,
+            originalScale.z
+        );
     }
 }
