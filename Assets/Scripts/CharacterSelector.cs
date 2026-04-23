@@ -1,11 +1,11 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class CharacterSelector : MonoBehaviour
 {
     [Header("UI References")]
-    public TMP_Dropdown dropdown;
+    public TMP_Dropdown characterDropdown;
     public Image previewImage;
     public TMP_InputField nameInput;
     public TMP_InputField ageInput;
@@ -17,53 +17,144 @@ public class CharacterSelector : MonoBehaviour
     public Sprite fallenAngelSprite;
     public Sprite forestRangerSprite;
 
-    void Start()
+    [Header("Forest Ranger Dress")]
+    public GameObject dressPanel;
+    public Image dressOverlayImage;
+    public GameObject resetButton;
+
+    private void Start()
     {
-        dropdown.onValueChanged.AddListener(OnDropdownChanged);
-        OnDropdownChanged(0);
+        if (characterDropdown != null)
+        {
+            characterDropdown.onValueChanged.AddListener(delegate
+            {
+                UpdateCharacter();
+            });
+        }
+
+        if (nameInput != null)
+        {
+            nameInput.onValueChanged.AddListener(delegate
+            {
+                UpdateResultText();
+            });
+        }
+
+        if (ageInput != null)
+        {
+            ageInput.onValueChanged.AddListener(delegate
+            {
+                UpdateResultText();
+            });
+        }
+
+        UpdateCharacter();
+        UpdateResultText();
     }
 
-    void OnDropdownChanged(int index)
+    public void UpdateCharacter()
     {
-        switch (index)
+        if (characterDropdown == null || previewImage == null)
+            return;
+
+        int selected = characterDropdown.value;
+
+        switch (selected)
         {
             case 0:
+                // Skeleton Warrior
                 previewImage.sprite = skeletonSprite;
-                descriptionText.text =
-                    "Skeleton Warrior is a fearless undead fighter.\n\n" +
-                    "He is strong, battle-hardened, and wears ancient armor.\n\n" +
-                    "Best suited for close combat and intimidating enemies.";
+
+                if (descriptionText != null)
+                {
+                    descriptionText.text =
+                        "Skeleton Warrior is a fearless undead fighter.\n\n" +
+                        "He is strong, battle-hardened, and wears ancient armor.\n\n" +
+                        "Best suited for close combat and intimidating enemies.";
+                }
                 break;
 
             case 1:
+                // Fallen Angel
                 previewImage.sprite = fallenAngelSprite;
-                descriptionText.text =
-                    "Fallen Angel is a dark mystical being.\n\n" +
-                    "This character is mysterious, powerful, and connected to shadow energy.\n\n" +
-                    "Best suited for magical or cursed-style customization.";
+
+                if (descriptionText != null)
+                {
+                    descriptionText.text =
+                        "Fallen Angel is a dark mystical protector.\n\n" +
+                        "Fast, mysterious and powerful.\n\n" +
+                        "Best suited for magic and shadow energy.";
+                }
                 break;
 
             case 2:
+                // Forest Ranger
                 previewImage.sprite = forestRangerSprite;
-                descriptionText.text =
-                    "Forest Ranger is a skilled protector of nature.\n\n" +
-                    "Fast, observant, and agile, this character is perfect for survival and ranged combat.\n\n" +
-                    "Best suited for stealth and wilderness adventures.";
+
+                if (descriptionText != null)
+                {
+                    descriptionText.text =
+                        "Forest Ranger is a skilled protector of nature.\n\n" +
+                        "Fast, observant and agile.\n\n" +
+                        "Best suited for ranged combat and survival.";
+                }
                 break;
         }
 
-        UpdateResult();
+        HandleForestRangerDress(selected);
+        UpdateResultText();
     }
 
-    public void UpdateResult()
+    private void HandleForestRangerDress(int selectedCharacter)
     {
-        string charName = nameInput.text;
-        string age = ageInput.text;
-        string selectedClass = dropdown.options[dropdown.value].text;
+        bool isForestRanger = (selectedCharacter == 2);
 
-        resultText.text =
-            "Name: " + charName + "\n" +
-            "Age: " + age + "\n" +
-            "Class: " + selectedClass;
+        if (dressPanel != null)
+        {
+            dressPanel.SetActive(isForestRanger);
+        }
+
+        if (resetButton != null)
+        {
+            resetButton.SetActive(isForestRanger);
+        }
+
+        if (!isForestRanger && dressOverlayImage != null)
+        {
+            dressOverlayImage.sprite = null;
+
+            Color c = dressOverlayImage.color;
+            c.a = 0f;
+            dressOverlayImage.color = c;
+        }
+    }
+
+    public void ResetForestRangerDress()
+    {
+        if (dressOverlayImage != null)
+        {
+            dressOverlayImage.sprite = null;
+
+            Color c = dressOverlayImage.color;
+            c.a = 0f;
+            dressOverlayImage.color = c;
+        }
+    }
+
+    public void UpdateResultText()
+    {
+        string enteredName = nameInput != null ? nameInput.text : "";
+        string enteredAge = ageInput != null ? ageInput.text : "";
+        string selectedClass = characterDropdown != null
+            ? characterDropdown.options[characterDropdown.value].text
+            : "Unknown";
+
+        if (resultText != null)
+        {
+            resultText.text =
+                "Name: " + enteredName + "\n" +
+                "Age: " + enteredAge + "\n" +
+                "Class: " + selectedClass;
+        }
     }
 }

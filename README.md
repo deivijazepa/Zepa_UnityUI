@@ -36,6 +36,9 @@
 - Poga **Start** atver Character Creator ainu
 - Poga **Exit** aizver aplikāciju
 - Poga **Back** atgriežas uz galveno izvēlni
+- Character Creator ainā:
+  - Back poga atgriež uz sākuma izvēlni
+  - Pogām pievienoti skaņas efekti
 
 ---
 
@@ -49,9 +52,8 @@
 ---
 
 ### Datu ievade
-- Iespējams ievadīt:
-  - vārdu
-  - vecumu
+- Name laukā iespējams ievadīt tikai burtus
+- Age laukā iespējams ievadīt tikai skaitļus
 - Rezultātā tiek attēlots teksts ar ievadītajiem datiem
 
 ---
@@ -77,13 +79,15 @@ Cepures izvēle maina tēla vizuālo izskatu, savukārt aksesuāri un bruņas ti
 ---
 
 ### Drag & Drop
-- Demonstrēts drag & drop princips
-- Iespējams pārvilkt aprīkojuma elementus (**Accessories 1 / 2 / 3**) uz tēla priekšskatījumu
-- Nometot elementu uz tēla, tiek aktivizēta atbilstošā izvēle
-- Funkcionalitāte izmantota kā interaktīvs piemērs lietotāja darbību apstrādei
+- Iespējams pārvilkt apģērba elementus uz tēla
+- Pēc “drop” tiek nomainīts tēla apģērbs (overlay)
+- Demonstrēts drag & drop princips UI vidē
 
-**Piezīme:**
-Drag & drop funkcionalitāte nav izmantota visām kategorijām, bet demonstrē principa realizāciju UI vidē
+---
+
+### Reset funkcija
+- Poga “Reset” noņem izvēlēto apģērbu
+- Pieejama tikai Forest Ranger tēlam
 
 ---
 
